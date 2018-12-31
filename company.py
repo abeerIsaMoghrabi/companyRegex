@@ -1,6 +1,7 @@
 from EmployeeRegex import EmployeeRegex
 from DepartmentRegex import DepartmentRegex
 
+
 class Company:
 
     def __init__(self):
@@ -12,11 +13,14 @@ class Company:
 
         self.emp_regex = EmployeeRegex(self.read_from_file('data'))
         self.dep_regex = DepartmentRegex(self.read_from_file('dep'))
-        self.dep_array = []
         self.fill_dep_arr()
-        pass
 
     def read_from_file(self, filename):
+        """
+
+        :param filename: the name of file we want to read
+        :return: file content
+        """
         arr = []
         emp_file = open(filename, "r")
         for line in emp_file:
@@ -24,7 +28,10 @@ class Company:
         return arr
 
     def fill_dep_arr(self):
-        self.dep_array = self.dep_regex.create_dep_list(self.emp_regex.create_emp_list())
+        """
+        this function call function in DepartmentRegex class
+        """
+        self.dep_regex.create_dep_list(self.emp_regex.create_emp_list())
 
     def menu(self):
         while True:
@@ -35,7 +42,7 @@ class Company:
                 self.emp_regex.general_search()
 
             elif option == 2:
-                self.print_dep_arr()
+                self.dep_regex.print_dep_arr()
 
             elif option == 3:
                 self.emp_regex.search_using_id()
@@ -45,15 +52,6 @@ class Company:
 
             elif option == 5:
                 self.emp_regex.search_for_position()
-
-    def print_dep_arr(self):
-        for dep in self.dep_array:
-            if dep != -1:
-                print dep.get_department_name(), " ", dep.get_department_id(), " ", dep.get_manager_id()
-                print 'employee'
-                for emp in dep.employees:
-                    print emp.get_name(), " ", emp.get_emp_number()
-
 
 
 c = Company()
