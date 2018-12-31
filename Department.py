@@ -21,8 +21,8 @@ class Department(object):
         return self.department_id
 
     def set_department_name(self, value):
-        self.department_id = value
+        self.department_name = value
 
     def get_department_name(self):
-        return self.department_id
+        return self.department_name
 

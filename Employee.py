@@ -1,76 +1,61 @@
-import re
-
 
 class Employee(object):
-
     def __init__(self):
-        self.menu_item = "1-name \n" + \
-                    "2-phone_number \n" + \
-                    "3-emp_number\n" + \
-                    "4-birth_day\n" + \
-                    "5-phone_number \n" + \
-                    "6-emp_number\n" + \
-                    "7-birth_day\n"
-
-        self.token = {'name': '\S+ ?\S*',
-                      'phone_number': '\d{10,10}',
-                      'number': '\d+',
-                      'birth_day': '[12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[0]',
-                      'spaces': '\s+'
-                      }
-        self.token_arr = [self.token['name'],
-                          self.token['phone_number'],
-                          self.token['number'],
-                          self.token['name'],
-                          self.token['name'],
-                          self.token['number'],
-                          self.token['number']]
-
+        self.name = ''
+        self.phone_number = ''
+        self.emp_number = -1
+        self.birth_day = ''
+        self.position = ''
+        self.manager_id = -1
+        self.department_id = -1
         pass
 
-    def create_pattern(self, value, code):
-        arr = self.token_arr
+    def set_name(self, value):
+        self.name = value
 
-        arr[code] = '(?:' + value + ')'
+    def get_name(self):
+        return self.name
 
-        all_token = '('+arr[0]+')'
-        for item in arr[1:]:
-            all_token = all_token + self.token['spaces'] + '('+item+')'
-        return all_token
+    def set_phone_number(self, value):
+        self.phone_number = value
 
-    def general_search(self):
-        print "enter value you want search"
-        print(self.menu_item)
+    def get_phone_number(self):
+        return self.phone_number
 
-        option = input("Enter number of option you want:")
-        value = raw_input("Plz txt:")
+    def set_emp_number(self, value):
+        self.emp_number = value
 
-        self.search(option-1, [1, 3], value)
+    def get_emp_number(self):
+        return self.emp_number
 
-    def search_using_id(self):
-        print "enter the field you want"
-        print(self.menu_item)
+    def set_birth_day(self, value):
+        self.birth_day = value
 
-        option = input("Enter number of option you want:")
-        value = raw_input("id value:")
+    def get_birth_day(self):
+        return self.birth_day
 
-        self.search(2, [option], value)
+    def set_position(self, value):
+        self.position = value
 
-    def search(self, code, group_num, value):
+    def get_position(self):
+        return self.position
 
-        rx = re.compile(r'' + self.create_pattern(value, code))
+    def set_manager_id(self, value):
+        self.manager_id = value
 
-        emp_file = open('data', "r")
+    def get_manager_id(self):
+        return self.manager_id
 
-        for line in emp_file:
-            grp = rx.search(line)
+    def set_department_id(self, value):
+        self.department_id = value
 
-            if grp != None:
-                print_group = ""
-                for num in group_num:
-                    print_group = print_group + "  " + grp.group(num)
-                print print_group
+    def get_department_id(self):
+        return self.department_id
 
-
-e = Employee()
-e.search_using_id()
+    # name = property(set_name, get_name)
+    # phone_number = property(set_phone_number, get_phone_number)
+    # emp_number = property(set_emp_number, get_emp_number)
+    # birth_day = property(set_birth_day, get_birth_day)
+    # position = property(set_position, get_position)
+    # manager_id = property(set_manager_id, get_manager_id)
+    # department_id = property(set_department_id, get_department_id)
