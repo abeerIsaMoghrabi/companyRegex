@@ -26,18 +26,20 @@ class EmployeeRegex(object):
                           self.token['number'],
                           self.token['number']]
 
+
         self.text = text
 
         pass
 
     def create_pattern(self, value, code):
-        arr = self.token_arr
+        arr = self.token_arr[:]
 
-        arr[code] = '(?:' + value + ')'
+        arr[code] = value
 
         all_token = '('+arr[0]+')'
         for item in arr[1:]:
             all_token = all_token + self.token['spaces'] + '('+item+')'
+        del arr
         return all_token
 
     def general_search(self):
@@ -46,7 +48,7 @@ class EmployeeRegex(object):
 
         option = input("Enter number of option you want:")
         value = raw_input("Plz txt:")
-
+        value = '(?:' + value + ')'
         print self.search(option-1, [1, 3], value)
 
     def search_using_id(self):
@@ -55,6 +57,7 @@ class EmployeeRegex(object):
 
         option = input("Enter number of option you want:")
         value = raw_input("id value:")
+        value = '(?:' + value + ')'
         if option > 4:
             option = option+2
         print self.search(2, [option], value)
@@ -79,6 +82,19 @@ class EmployeeRegex(object):
         date_reg = '([1-9] |1[0-9]| 2[0-9]|3[0-1])-'+month
 
         print self.search(3, [4], date_reg).__len__()
+
+    def search_for_position(self):
+        value = raw_input('Enter the postion you want:')
+        op = input('Enter 1 for positive and 0 for negative:')
+
+        if op == 0:
+            value = '((?!' + value + ').)*'
+
+        else:
+            value = '(?:' + value + ')'
+
+        print self.search(4, [1, 3], value)
+
 
     def create_emp_list(self):
         emp_list = []
@@ -110,6 +126,9 @@ class EmployeeRegex(object):
 
 
         return emp_list
+
+
+
 
 
 
