@@ -21,11 +21,11 @@ class Company:
         :param filename: the name of file we want to read
         :return: file content
         """
-        arr = []
+        st = ""
         emp_file = open(filename, "r")
         for line in emp_file:
-            arr.append(line)
-        return arr
+            st = st+line
+        return st
 
     def fill_dep_arr(self):
         """

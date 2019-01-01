@@ -11,25 +11,21 @@ class DepartmentRegex(object):
         self.pattern = '(\S+ ?\S*)\s+(\d+)\s+(\S+ ?\S*)'
         self.text = text
 
-    def build_dep_list(self):
-        for line in self.text:
-            self.dep_line_parse(line)
-
-    def dep_line_parse(self, line):
+    def dep_parse(self):
         """
-        this function parse dep file line to create Department object
-        :param line: line in dep file
+        this function parse dep file to create Department object
         """
         rx = re.compile(self.pattern)
-        groups = rx.search(line)
-        new_dep = Department()
-        new_dep.set_manager_id(groups.group(1))
-        new_dep.set_department_id(groups.group(2))
-        new_dep.set_department_name(groups.group(3))
-        self.dep_arr[int(new_dep.get_department_id())] = new_dep
+        groups = rx.findall(self.text)
+        for item in groups:
+            new_dep = Department()
+            new_dep.set_manager_id(item[0])
+            new_dep.set_department_id(item[1])
+            new_dep.set_department_name(item[2])
+            self.dep_arr[int(new_dep.get_department_id())] = new_dep
 
     def create_dep_list(self, emp_list):
-        self. build_dep_list()
+        self. dep_parse()
         for emp in emp_list:
 
             self.dep_arr[int(emp.get_department_id())].employees.append(emp)

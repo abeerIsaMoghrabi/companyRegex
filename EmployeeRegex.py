@@ -73,7 +73,7 @@ class EmployeeRegex(object):
         option = input("Enter number of option you want:")
         value = raw_input("Plz txt:")
         value = '(?:' + value + ')'
-        print self.search(option-1, [1, 3], value)
+        self. print_info(self.search(option-1, value), [0, 2])
 
     def search_using_id(self):
         """
@@ -86,30 +86,22 @@ class EmployeeRegex(object):
         option = input("Enter number of option you want:")
         value = raw_input("id value:")
         value = '(?:' + value + ')'
-        if option > 4:
+        if option > 3:
             option = option+2
-        print self.search(2, [option], value)
+        self. print_info(self.search(2, value), [option-1])
 
-    def search(self, code, group_num, value):
+    def search(self, code, value):
         """
         :param code: index in token array (index i went to replace with value)
-        :param group_num: list of group number that we want to display
         :param value: value to search for
         :return: searched result
         """
-        result_arr = []
+
         rx = re.compile(r'' + self.create_pattern(value, code))
 
-        for line in self.text:
-            grp = rx.search(line)
+        grp = rx.findall(self.text)
 
-            if grp != None:
-                print_group = ""
-                for num in group_num:
-                    print_group = print_group + "  " + grp.group(num)
-
-                result_arr.append(print_group)
-        return result_arr
+        return grp
 
     def count_emp_birth_in_m(self):
         """
@@ -119,7 +111,7 @@ class EmployeeRegex(object):
         month = raw_input("Plz enter the month:")
         date_reg = '([1-9] |1[0-9]| 2[0-9]|3[0-1])-'+month
 
-        print self.search(3, [4], date_reg).__len__()
+        print self.search(3, date_reg).__len__()
 
     def search_for_position(self):
 
@@ -137,7 +129,14 @@ class EmployeeRegex(object):
         else:
             value = '(?:' + value + ')'
 
-        print self.search(4, [1, 3], value)
+        self. print_info(self.search(4, value), [0, 2])
+
+    def print_info(self, arr, to_print):
+        txt = ""
+        for item in arr:
+            for i in to_print:
+                txt = txt + " " + item[i]
+        print txt
 
     def create_emp_list(self):
         """
@@ -150,23 +149,22 @@ class EmployeeRegex(object):
             all_token = all_token + self.token['spaces'] + '(' + item + ')'
 
         rx = re.compile(r'' + all_token)
-        for line in self.text:
-            grp = rx.search(line)
 
-            if grp != None:
+        grp = rx.findall(self.text)
+
+        if grp != None:
+            for item in grp:
                 new_emp = Employee()
-                new_emp.set_name(grp.group(1))
-                new_emp.set_phone_number(grp.group(2))
-                new_emp.set_emp_number(grp.group(3))
-                new_emp.set_birth_day(grp.group(4))
-                new_emp.set_position(grp.group(7))
-                new_emp.set_manager_id(grp.group(8))
-                new_emp.set_department_id(grp.group(9))
+                new_emp.set_name(item[0])
+                new_emp.set_phone_number(item[1])
+                new_emp.set_emp_number(item[2])
+                new_emp.set_birth_day(item[3])
+                new_emp.set_position(item[6])
+                new_emp.set_manager_id(item[7])
+                new_emp.set_department_id(item[8])
                 emp_list.append(new_emp)
 
         return emp_list
-
-
 
 
 
